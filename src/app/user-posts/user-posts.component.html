@@ -1,0 +1,200 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+  integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA="
+  crossorigin="anonymous"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+  integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript"></script>
+s
+<div class="container mt-3 mb-4">
+  <div class="col-lg mt-4 mt-lg-0">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4">
+          <table *ngIf="posts" class="table manage-candidates-top mb-0">
+            <thead>
+              <tr>
+                <th><i class="fa fa-address-card"></i> User-Post</th>
+                <!-- <th class="text-center"></th> -->
+              </tr>
+            </thead>
+            <tbody *ngFor="let post of posts">
+              <tr class="candidates-list">
+                <td class="title">
+                  <div
+                    style="
+                      color: #fff;
+                      display: flex;
+                      align-items: flex-start;
+                      margin-bottom: 15px;
+                    "
+                    *ngIf="user"
+                  >
+                    <img
+                      style="width: 50px; border-radius: 50%; margin-right: 6px"
+                      src="https://source.unsplash.com/collection/1065396/50x50"
+                      alt=""
+                    />
+                    <div style="display: block">
+                      <h3 style="margin: 0">
+                        <b> {{ user.name }}</b>
+                      </h3>
+                      <p style="font-size: 10px; color: #969696">
+                        {{ user.email }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="thumb"></div>
+                  <div class="candidate-list-details">
+                    <div class="candidate-list-info">
+                      <div class="candidate-list-title">
+                        <h5 class="mb-0">
+                          <a style="cursor: pointer">Title: {{ post.title }}</a>
+                        </h5>
+                      </div>
+                      <div class="candidate-list-option">
+                        <ul style="margin-bottom: 12px" class="list-unstyled">
+                          <li>
+                            <i class="fas fa-comment-dots pr-1"></i
+                            >{{ post.body }}
+                          </li>
+                          <img
+                            style="object-fit: cover; margin-top: 12px"
+                            src="https://source.unsplash.com/collection/220183/982x500"
+                            alt=""
+                          />
+                        </ul>
+
+                        <div class="comunicate">
+                          <a
+                            class="o-like contain-like"
+                            [class.o-like]="!post.liked"
+                            [class.like-btn]="post.liked"
+                            (click)="toggleLike(post)"
+                          >
+                            <i
+                              class="far fa-thumbs-up"
+                              [class.fas]="post.liked"
+                              [class.far]="!post.liked"
+                            ></i>
+                            Like
+                          </a>
+                          <a
+                            class="o-cmt contain-like"
+                            [class.o-like]="!post.liked"
+                            [class.cmt-btn]="post.liked"
+                            (click)="
+                              toggleCmt(post); showCommentsOnPost(post.id)
+                            "
+                          >
+                            <i
+                              class="far fa-message"
+                              [class.fas]="post.commented"
+                              [class.far]="!post.commented"
+                            ></i>
+                            Comment
+                          </a>
+                          <a
+                            class="o-share contain-like"
+                            [class.o-like]="!post.liked"
+                            [class.share-btn]="post.liked"
+                            (click)="toggleShare(post)"
+                          >
+                            <i
+                              class="far fa-share-from-square"
+                              [class.fas]="post.shared"
+                              [class.far]="!post.shared"
+                            ></i>
+                            Share
+                          </a>
+                        </div>
+                      </div>
+                      <div *ngIf="isCommentOpen">
+                        <div
+                          style="color: #fff"
+                          *ngIf="
+                            selectedPostId === post.id &&
+                            selectedPostComments.length > 0
+                          "
+                        >
+                          <!-- <h6>Comments:</h6> -->
+                          <div
+                            *ngFor="let comment of selectedPostComments"
+                            class="cnt-cmt"
+                          >
+                            <img
+                              class="avatar"
+                              src="https://source.unsplash.com/featured/100x100"
+                              alt=""
+                            />
+                            <div style="display: flex; flex-direction: column">
+                              <ul class="cmt">
+                                <li>
+                                  <b style="font-size: 13px; color: #fff"
+                                    >{{ comment.name }}
+                                  </b>
+                                  ({{ comment.email }})
+                                </li>
+                                <li style="font-size: 15px; color: #fff">
+                                  {{ comment.body }}
+                                </li>
+                              </ul>
+
+                              <div style="display: flex">
+                                <a
+                                  class="l-cmt"
+                                  style="
+                                    font-size: 12px;
+                                    color: #969696 !important;
+                                    line-height: 1.2;
+                                    padding-left: 10px;
+                                    font-weight: bold;
+                                  "
+                                  >Like</a
+                                >
+                                <a
+                                  class="l-cmt"
+                                  style="
+                                    font-size: 12px;
+                                    color: #969696 !important;
+                                    line-height: 1.2;
+                                    padding-left: 10px;
+                                    font-weight: bold;
+                                  "
+                                  >Reply</a
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
